@@ -14,19 +14,30 @@ describe('Testando classe ContaBancaria', () => {
         expect(conta.consultarSaldo()).toBe(120)
     })
 
+    test('Testando depositar valor negativo', () => {
+        conta.depositar(-30)
+        expect(conta.consultarSaldo()).toBe(20)
+    })
+
     test('Testando sacar valor válido', () => {
         conta.sacar(10)
         expect(conta.consultarSaldo()).toBe(10)
     })
 
+    test('Testando sacar valor inválido', () => {
+        conta.sacar(650)
+        expect(conta.consultarSaldo()).toBe(20)
+    })
+
     test('Testando transferir valor válido', () => {
         conta.transferir(15, contaDestino)
         expect(conta.consultarSaldo()).toBe(5)
-    
-    test('Testando exibir extrato', () => {
-        conta.depositar(300)
-        expect(conta.exibirExtrato()).toBe('Depósito de R$300,00')
     })
 
+    test('Testando transferir valor inválido', () => {
+        conta.transferir(100, contaDestino)
+        expect(conta.consultarSaldo()).toBe(20)
     })
+    
 })
+
