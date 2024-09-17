@@ -22,7 +22,11 @@ describe('Testando classe ContaBancaria', () => {
     test('Testando transferir valor válido', () => {
         conta.transferir(15, contaDestino)
         expect(conta.consultarSaldo()).toBe(5)
-
+    
+    test('Testando exibir extrato', () => {
+        conta.depositar(300)
+        expect(conta.exibirExtrato()).toBe('Depósito de R$300,00')
+    })
 
     })
 })

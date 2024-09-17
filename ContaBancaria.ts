@@ -2,23 +2,28 @@ export default class ContaBancaria {
     private saldo = 20;
     private numeroConta = 123;
     private agencia = 89;
-    private extrato: String[]
+    private extrato: { descricao: string, data: Date }[]
+    private descricao: string
 
-    constructor(){
+    constructor() {
         this.extrato = []
-    } 
+        this.descricao = ''
+    }
 
     public depositar(valor: number) {
         if (valor > 0) {
             this.saldo += valor
-            this.extrato.push(`Depósito de R$${valor}, 00`)
+            this.registrarOperacao(`Depósito de R$${valor},00`)
         }
     }
 
     public sacar(valor: number) {
-        if (valor <= this.saldo) {
+        if (valor > 0 && valor <= this.saldo) {
             this.saldo -= valor
-            this.extrato.push(`Saque de R$${valor}, 00`)
+            this.registrarOperacao(`Saque de R$${valor},00`)
+
+        } else {
+            console.log('Valor inválido!')
         }
     }
 
@@ -27,17 +32,36 @@ export default class ContaBancaria {
     }
 
     public transferir(valor: number, contaDestino: ContaBancaria) {
-        if (valor <= this.saldo) {
+        if (valor > 0 && valor <= this.saldo) {
             this.saldo -= valor
             contaDestino.saldo += valor
-            this.extrato.push(`Transferência de R$${valor}, 00`)
+            this.registrarOperacao(`Transferência de R$${valor},00`)
+
+        } else {
+            console.log('Valor inválido!')
         }
     }
 
-    
+
     public exibirExtrato() {
-        for(let extrato of this.extrato){
-            return extrato
+        console.log(`--- Transações --- `)
+        for (const extrato of this.extrato) {
+            console.log(`
+                Descrição: ${extrato.descricao}
+                Data: ${extrato.data}`)
         }
     }
+
+
+    private registrarOperacao(descricao: string) {
+        let data = new Date()
+        this.extrato.push({
+            descricao: descricao,
+            data: data
+        })
+
+    }
+
+
+
 }
